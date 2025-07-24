@@ -196,6 +196,7 @@ impl ApplicationHandler for State<'_> {
                                     }),
                                     store: wgpu::StoreOp::Store,
                                 },
+                                depth_slice: None,
                             })],
                             depth_stencil_attachment: None,
                             timestamp_writes: None,
@@ -236,7 +237,9 @@ impl ApplicationHandler for State<'_> {
 
 fn main() {
     if std::env::var("RUST_LOG").is_err() {
-        unsafe { std::env::set_var("RUST_LOG", "error"); }
+        unsafe {
+            std::env::set_var("RUST_LOG", "error");
+        }
     }
     env_logger::init();
 

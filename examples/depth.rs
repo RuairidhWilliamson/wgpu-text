@@ -2,8 +2,8 @@
 mod ctx;
 
 use ctx::Ctx;
-use glyph_brush::ab_glyph::FontRef;
 use glyph_brush::OwnedSection;
+use glyph_brush::ab_glyph::FontRef;
 use std::sync::Arc;
 use std::time::{Duration, Instant};
 use wgpu::{DepthStencilState, TextureView};
@@ -254,6 +254,7 @@ impl ApplicationHandler for State<'_> {
                                     }),
                                     store: wgpu::StoreOp::Store,
                                 },
+                                depth_slice: None,
                             })],
                             depth_stencil_attachment: Some(
                                 wgpu::RenderPassDepthStencilAttachment {
@@ -301,7 +302,9 @@ impl ApplicationHandler for State<'_> {
 
 fn main() {
     if std::env::var("RUST_LOG").is_err() {
-        unsafe { std::env::set_var("RUST_LOG", "error"); }
+        unsafe {
+            std::env::set_var("RUST_LOG", "error");
+        }
     }
     env_logger::init();
 

@@ -7,7 +7,7 @@ use camera::Camera;
 use ctx::Ctx;
 use glyph_brush::ab_glyph::FontRef;
 use glyph_brush::{OwnedSection, OwnedText, VerticalAlign};
-use pipeline::{create_pipeline, Vertex};
+use pipeline::{Vertex, create_pipeline};
 use std::sync::Arc;
 use std::time::{Duration, Instant};
 use wgpu::util::DeviceExt;
@@ -362,6 +362,7 @@ impl ApplicationHandler for State<'_> {
                                     load: wgpu::LoadOp::Clear(wgpu::Color::TRANSPARENT),
                                     store: wgpu::StoreOp::Store,
                                 },
+                                depth_slice: None,
                             })],
                             depth_stencil_attachment: None,
                             timestamp_writes: None,
@@ -388,6 +389,7 @@ impl ApplicationHandler for State<'_> {
                                     }),
                                     store: wgpu::StoreOp::Store,
                                 },
+                                depth_slice: None,
                             })],
                             depth_stencil_attachment: None,
                             timestamp_writes: None,
@@ -438,7 +440,9 @@ impl ApplicationHandler for State<'_> {
 
 fn main() {
     if std::env::var("RUST_LOG").is_err() {
-        unsafe { std::env::set_var("RUST_LOG", "error"); }
+        unsafe {
+            std::env::set_var("RUST_LOG", "error");
+        }
     }
     env_logger::init();
 
